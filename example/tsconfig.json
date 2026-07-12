@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "react-native-signatures": ["../src/index"],
+      "react-native-signatures/*": ["../src/*"]
+    }
+  }
+}

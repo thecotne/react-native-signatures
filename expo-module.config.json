@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["ReactNativeSignaturesModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.signatures.ReactNativeSignaturesModule"]
+  }
+}
