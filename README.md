@@ -95,6 +95,35 @@ type SaveOptions = {
 };
 ```
 
+## Alternatives
+
+Solid libraries exist for the same job — the trade-off is which runtime
+dependencies they bring along:
+
+| Library | Rendering | Extra React Native modules required | Platforms |
+| --- | --- | --- | --- |
+| **react-native-signatures** (this) | Platform-native 2D: Core Graphics (iOS), `Canvas`/`Path` (Android), HTML Canvas 2D (web) | **none** | iOS · Android · Web |
+| [react-native-signature-canvas](https://github.com/YanYuanFE/react-native-signature-canvas) | signature_pad running inside a WebView | `react-native-webview` | iOS · Android · Expo |
+| [@amwebexpert/react-native-sign-here](https://www.npmjs.com/package/@amwebexpert/react-native-sign-here) | SVG paths driven by gestures | `react-native-svg`, `react-native-gesture-handler`, `react-native-reanimated` | iOS · Android |
+| [react-native-signature-capture](https://github.com/RepairShopr/react-native-signature-capture) | Native views (old architecture) | none | iOS · Android |
+
+How this module differs:
+
+- **No other React Native modules.** No `react-native-svg`, no
+  `react-native-gesture-handler`, no `react-native-reanimated`, no
+  `react-native-webview` — nothing besides Expo Modules itself. The ink is
+  drawn by each platform's own OS-provided 2D API, so the signature feature
+  adds no graphics engine, WebView, or animation runtime to your bundle.
+- **Native code on every platform.** Touch handling and rendering run in
+  Swift (Core Graphics) on iOS and Kotlin (`Canvas`) on Android — no
+  touch-point round-trips through JS while drawing — and on the browser's
+  native canvas on web.
+- **New-architecture ready.** Built on the Expo Modules API (Fabric), unlike
+  `react-native-signature-capture`, which targets the old architecture and
+  last shipped in 2021.
+- Same ink model as `react-native-signature-canvas` (both implement
+  signature_pad's algorithm), but without hosting a WebView to get it.
+
 ## Development
 
 ```sh
