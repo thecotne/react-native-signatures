@@ -106,6 +106,7 @@ dependencies they bring along:
 | [react-native-signature-canvas](https://github.com/YanYuanFE/react-native-signature-canvas) | signature_pad running inside a WebView | `react-native-webview` | iOS · Android · Expo |
 | [@amwebexpert/react-native-sign-here](https://www.npmjs.com/package/@amwebexpert/react-native-sign-here) | SVG paths driven by gestures | `react-native-svg`, `react-native-gesture-handler`, `react-native-reanimated` | iOS · Android |
 | [react-native-signature-capture](https://github.com/RepairShopr/react-native-signature-capture) | Native views (old architecture) | none | iOS · Android |
+| [react-signature-canvas](https://www.npmjs.com/package/react-signature-canvas) | signature_pad on an HTML canvas (React DOM wrapper) | none (not a React Native library) | Web only |
 
 How this module differs:
 
@@ -123,6 +124,11 @@ How this module differs:
   last shipped in 2021.
 - Same ink model as `react-native-signature-canvas` (both implement
   signature_pad's algorithm), but without hosting a WebView to get it.
+- **One component for all platforms.** `react-signature-canvas` covers web
+  only, so pairing it with any native library means maintaining two
+  signature code paths (`.tsx` + `.web.tsx`) with two different APIs. This
+  module's web implementation ships built in, behind the same props and ref
+  methods as iOS and Android.
 
 ## Development
 
