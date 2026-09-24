@@ -144,6 +144,16 @@ If you intentionally change the ink algorithm, regenerate the golden vectors wit
 `node scripts/generate-golden-fixtures.cjs` and port the change to
 `ios/SignatureView.swift` and `android/.../SignatureView.kt`.
 
+## Releasing
+
+CI (`.github/workflows/ci.yml`) runs lint, tests and the build on every pull
+request, plus a web export and native Android / iOS builds of the example app.
+
+To publish, bump `version` in `package.json` (e.g. `npm version minor`), push,
+then create a GitHub release tagged `v<version>`. The release workflow
+publishes to npm with provenance via npm trusted publishing; releases marked
+as pre-release are published under the `next` dist-tag.
+
 ## Attribution
 
 The ink model is ported from
