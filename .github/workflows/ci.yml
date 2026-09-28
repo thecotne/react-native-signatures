@@ -22,15 +22,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run lint
-      - run: npx prettier --check src
-      - run: npm run build
-      - run: npm test
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm exec prettier --check src
+      - run: pnpm build
+      - run: pnpm test
+      # Releases publish with npm (`npm stage publish`), so check what npm packs.
       - name: Check package contents
         run: npm pack --dry-run
 
@@ -39,19 +41,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            example/package-lock.json
-      - run: npm ci
-      - run: npm ci
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tsc --noEmit -p .
         working-directory: example
-      - run: npx tsc --noEmit -p .
-        working-directory: example
-      - run: npx expo export --platform web
+      - run: pnpm exec expo export --platform web
         working-directory: example
 
   android:
@@ -59,22 +57,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            example/package-lock.json
+          cache: pnpm
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
       - uses: gradle/actions/setup-gradle@v5
-      - run: npm ci
-      - run: npm ci
-        working-directory: example
-      - run: npx expo prebuild --platform android --no-install
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec expo prebuild --platform android --no-install
         working-directory: example
       - name: Assemble debug APK
         run: ./gradlew :app:assembleDebug -PreactNativeArchitectures=x86_64 --no-daemon
@@ -89,17 +83,13 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            example/package-lock.json
-      - run: npm ci
-      - run: npm ci
-        working-directory: example
-      - run: npx expo prebuild --platform ios
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec expo prebuild --platform ios
         working-directory: example
       - name: Build for simulator
         working-directory: example/ios

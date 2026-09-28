@@ -61,5 +61,6 @@
     "expo": "*",
     "react": "*",
     "react-native": "*"
-  }
+  },
+  "packageManager": "pnpm@12.3.4"
 }

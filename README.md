@@ -133,11 +133,11 @@ How this module differs:
 ## Development
 
 ```sh
-npm install
-npm run build        # tsc
-npm test             # golden algorithm tests
+pnpm install         # installs the library and example/ (pnpm workspace)
+pnpm build           # tsc
+pnpm test            # golden algorithm tests
 cd example
-npx expo run:ios     # or: npx expo run:android / npx expo start --web
+pnpm exec expo run:ios   # or: pnpm exec expo run:android / pnpm exec expo start --web
 ```
 
 If you intentionally change the ink algorithm, regenerate the golden vectors with
@@ -149,7 +149,7 @@ If you intentionally change the ink algorithm, regenerate the golden vectors wit
 CI (`.github/workflows/ci.yml`) runs lint, tests and the build on every pull
 request, plus a web export and native Android / iOS builds of the example app.
 
-To publish, bump `version` in `package.json` (e.g. `npm version minor`), push,
+To publish, bump `version` in `package.json` (e.g. `pnpm version minor`), push,
 then create a GitHub release tagged `v<version>`. The release workflow
 stages the version on npm with provenance via npm trusted publishing
 (`npm stage publish`); approve it on npmjs.com with 2FA to publish it.

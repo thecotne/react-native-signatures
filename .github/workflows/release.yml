@@ -20,11 +20,12 @@ jobs:
     environment: npm
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v5
         with:
           # Node 24 ships npm 11, which trusted publishing requires.
           node-version: 24
-          cache: npm
+          cache: pnpm
           registry-url: https://registry.npmjs.org
       - name: Verify tag matches package.json version
         run: |
@@ -33,10 +34,12 @@ jobs:
             echo "::error::Release tag $GITHUB_REF_NAME does not match package.json ($expected)"
             exit 1
           fi
-      - run: npm ci
-      - run: npm run lint
-      - run: CI=true npm test
-      - run: npm run build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: CI=true pnpm test
+      - run: pnpm build
+      # Dependencies and the build use pnpm; staging stays on npm because
+      # `npm stage publish` (trusted publishing with 2FA approval) is npm-only.
       # `npm stage` first shipped in npm 11.20.0, newer than Node 24's bundled npm.
       - run: npm install -g npm@^11.20.0
       - name: Stage for publishing
