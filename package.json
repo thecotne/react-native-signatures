@@ -1,6 +1,6 @@
 {
   "name": "react-native-signatures",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Signature pad for React Native using platform-native 2D graphics (Core Graphics / Android Canvas / HTML Canvas) with signature_pad's velocity-based variable-width ink algorithm",
   "main": "build/index.js",
   "types": "build/index.d.ts",
