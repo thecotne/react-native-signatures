@@ -1,8 +1,10 @@
 name: Release
 
-# Publishes to npm when a GitHub release is published.
+# Stages the package on npm when a GitHub release is published.
 # The release tag must be `v<version>` matching package.json (e.g. v0.2.0).
 # Auth uses npm trusted publishing (OIDC) — no NPM_TOKEN secret needed.
+# The trusted publisher only allows `npm stage publish`: a maintainer approves
+# the staged version on npmjs.com (or `npm stage approve`) with 2FA to publish it.
 
 on:
   release:
@@ -35,10 +37,12 @@ jobs:
       - run: npm run lint
       - run: CI=true npm test
       - run: npm run build
-      - name: Publish
+      # `npm stage` first shipped in npm 11.20.0, newer than Node 24's bundled npm.
+      - run: npm install -g npm@^11.20.0
+      - name: Stage for publishing
         run: |
           if [ "${{ github.event.release.prerelease }}" = "true" ]; then
-            npm publish --access public --tag next
+            npm stage publish --access public --tag next
           else
-            npm publish --access public
+            npm stage publish --access public
           fi

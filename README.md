@@ -151,8 +151,9 @@ request, plus a web export and native Android / iOS builds of the example app.
 
 To publish, bump `version` in `package.json` (e.g. `npm version minor`), push,
 then create a GitHub release tagged `v<version>`. The release workflow
-publishes to npm with provenance via npm trusted publishing; releases marked
-as pre-release are published under the `next` dist-tag.
+stages the version on npm with provenance via npm trusted publishing
+(`npm stage publish`); approve it on npmjs.com with 2FA to publish it.
+Releases marked as pre-release are staged under the `next` dist-tag.
 
 ## Attribution
 
